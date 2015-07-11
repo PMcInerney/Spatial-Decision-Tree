@@ -65,7 +65,7 @@ def testing():
       if sum(alpha) > 1:
        raise Exception('invalid alpha')
       treefile = "temp.tree"
-      TP,FP,TN,FN = SDT.SDT_Learn(S_train,S_test,alpha,c_0,theta,splitRes,treefile,NeighborFunctions)
+      TP,FP,TN,FN = SDT.sdt_learn(S_train,S_test,alpha,c_0,theta,splitRes,treefile,NeighborFunctions)
       ACC = 100*(TP+TN)/(TP+TN+FP+FN) 
       if TP+FP != 0:
         PREC = 100*(TP)/(TP+FP)

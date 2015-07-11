@@ -101,7 +101,7 @@ for e,d in itertools.product(events,datasets):
         cellr = cell['id'][1]
         cellc = cell['id'][2]
         cellNeighbors =  adj_test[cell['id']]
-        DTOutput = SDT.SDT_Predict(tree, cell, cellNeighbors, theta)
+        DTOutput = SDT.sdt_predict(tree, cell, cellNeighbors, theta)
         if DTOutput == cell['class']:#Correct result
           if DTOutput == 'null': # TN
             pass

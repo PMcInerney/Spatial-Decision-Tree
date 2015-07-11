@@ -1,7 +1,0 @@
-27 experiments
-parameters:
-  neighborhood:3
-  wave:3
-  alpha:3
-
-larger neighborhood definitely increases running time

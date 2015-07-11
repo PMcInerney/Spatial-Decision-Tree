@@ -1,7 +1,6 @@
 import SolarCBIRTools
 import parseEventData
 import csv
-import SOLARFileTools
 import os
 
 EVENT_FILE = '/data/SDO/DATASET/files/events.csv'
@@ -96,12 +95,12 @@ def simple_pairs(dataset='1MONTH', waves=None):  # waves here indicates a filter
     pairs = SolarCBIRTools.generate_event_im_pairs([headers] + some_events, [],
                                           l)  # this attaches the event to the closest image we have,
     # we need the image and associated label for every event report
-    pairsWeWant = [pair for pair in pairs if
+    pairs_we_want = [pair for pair in pairs if
                    (pair[1][0] != 'derp')]  # grab the wave's events and the associated imagename
     ###################################################
     # We now have one image for every event in our list
     ###################################################
-    return headers, pairsWeWant
+    return headers, pairs_we_want
 
 
 def event_image_matches(dataset='1MONTH', waves=None):
