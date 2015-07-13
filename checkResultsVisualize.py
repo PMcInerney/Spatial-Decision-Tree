@@ -7,7 +7,7 @@ import numpy as np
 import random
 import itertools
 import scipy.misc as m
-from readData import readData
+from readData import read_data
 import SDT
 from DecisionTree import TreeNode
 from visualizationTools import drawSquare
@@ -79,7 +79,7 @@ for e,d in itertools.product(events,datasets):
     treeSpatial.load(f)
   with open(treefileNonSpatial) as f:
     treeNonSpatial.load(f)
-  S_train,S_test, = readData(e,n,d,w,b) # read the data set
+  S_train,S_test, = read_data(e,n,d,w,b) # read the data set
   cells_train, adj = S_train
   cells_test, adj_test = S_test
   counter = 0

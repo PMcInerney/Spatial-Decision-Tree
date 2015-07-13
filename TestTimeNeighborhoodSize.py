@@ -2,9 +2,9 @@ from __future__ import division
 import time
 import SDT
 import cProfile
-from readData import readData
+from readData import read_data
 import itertools
-import cPickle as pickle
+import cPickle
 
 # logging is used for data output because it allows us to read the output file as it is being constructed
 import logging
@@ -39,7 +39,7 @@ def testing():
   Y = [x for x in itertools.product(alphas,thetas)]
   results = []
   for e,n,d,w,b,cv in X:
-   S_train,S_test = readData(e,neighborhood = n, dataset = d, waves = w,balanceOption = b)
+   S_train,S_test = read_data(e,neighborhood = n, dataset = d, waves = w,balanceOption = b)
    cells, adj = S_train
    cells2, adj2 = S_test
    c_0 = max(len(cells)//cv,1)
@@ -48,7 +48,7 @@ def testing():
     if sum(alpha) > 1:
      raise Exception('invalid alpha')
     treefile = "temp.tree"
-    TP,FP,TN,FN = SDT.sdt_learn(S_train,S_test,alpha,c_0,theta,splitRes,treefile,NeighborFunctions)
+    TP,FP,TN,FN = SDT.sdt_learn(S_train, S_test, alpha, c_0, theta, splitRes, NeighborFunctions)
     ACC = 100*(TP+TN)/(TP+TN+FP+FN) 
     if TP+FP != 0:
       PREC = 100*(TP)/(TP+FP)
@@ -91,7 +91,7 @@ def testing():
     results.append((parameters,F1,runTime))
     
   with open('TestTimeNeighborhoodSize.results','wb') as f:
-    pickle.dump(results,f)
+    cPickle.dump(results,f)
 
 #cProfile.run('testing()')
 testing()

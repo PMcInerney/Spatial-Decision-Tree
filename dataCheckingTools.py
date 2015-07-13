@@ -1,4 +1,4 @@
-from readData import readData
+from readData import read_data
 import csv
 from collections import Counter
 
@@ -9,7 +9,7 @@ def checkDatasetSizes(experiments):
 # if the specified data hasn't been built, errors will happen
   for experiment in experiments:
     print experiment
-    S_train,S_test = readData(*experiment)
+    S_train,S_test = read_data(*experiment)
     cells, adj = S_train
     print len(cells)
     print len(adj.keys())
@@ -24,7 +24,7 @@ def checkDatasetSplits(experiments):
   for experiment in experiments:
     print experiment
     summ = 0
-    S_train,S_test = readData(*experiment)
+    S_train,S_test = read_data(*experiment)
     cells, adj = S_train
     print 'numcells: ', len(cells)
     P = dict()
@@ -48,7 +48,7 @@ def checkDataOrientation(experiments):
 
   for experiment in experiments:
     print experiment
-    S_train, S_test = readData(*experiment)
+    S_train, S_test = read_data(*experiment)
     cells,adj = S_train
     qwer = max([int(x['id'][0]) for x in cells])
     #check balance
@@ -82,7 +82,7 @@ def checkDatasetNeighbors(experiments):
 # if the specified data hasn't been built, errors will happen
   for experiment in experiments:
     print experiment
-    S_train, S_test = readData(*experiment)
+    S_train, S_test = read_data(*experiment)
     cells,adj = S_train
     allNeighbors = [len(adj[cell['id']]) for cell in cells] # this is all neighbors
     c = Counter(allNeighbors)

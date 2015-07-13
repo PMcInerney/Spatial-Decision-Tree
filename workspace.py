@@ -1,7 +1,7 @@
 from __future__ import division
 import SDT
 import cProfile
-from readData import readData
+from readData import read_data
 import experimentBuilder as EX
 import itertools
 from DecisionTree import TreeNode
@@ -48,8 +48,8 @@ def stuff():
     S = Tree.size()
     print 'size:', S
     print 'balance:', Tree.balance()
-    print 'splits:', Tree.totalSplitsEvaluated()
-    TBSR = Tree.totalBestSplitRuntime()
+    print 'splits:', Tree.total_splits_evaluated()
+    TBSR = Tree.total_best_split_runtime()
     print 'total time:', TBSR
     print 'avg time:', TBSR/((S-1)/2)
     print

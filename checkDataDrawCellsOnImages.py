@@ -7,7 +7,7 @@ import SOLARGenImageList
 import random
 import itertools
 import scipy.misc as m
-from readData import readData
+from readData import read_data
 from visualizationTools import drawSquare
 random.seed(42)
 
@@ -51,7 +51,7 @@ for e,d in itertools.product(events,datasets):
   dataset = d
   print eventClass,dataset
   headers,matches = SOLARGenImageList.image_event_matches(dataset=dataset,waves = ['0171'])
-  S_train,S_test, = readData(e,n,d,w,b)
+  S_train,S_test, = read_data(e,n,d,w,b)
   cells, adj = S_train
   cells2, adj2 = S_test
   print 'matches calculated'

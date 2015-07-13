@@ -1,17 +1,18 @@
 from __future__ import division
-import sys
-sys.path.append('/data/home/pmcinerney/python')
-import cPickle as pickle
+import cPickle
 import logging
 
-def readData(eventClass,neighborhood='rook',dataset='1MONTH',waves=['0171'],balanceOption = 'None'):
-  logging.log(logging.INFO+5,'reading data')
-  fileTrain = "data/"+"_".join([eventClass,neighborhood,dataset,"-".join(waves),'balance='+balanceOption])+".train"
-  fileTest = "data/"+"_".join([eventClass,neighborhood,dataset,"-".join(waves),'balance='+balanceOption])+".test"
-  with open(fileTrain) as f:
-    S_train = pickle.load(f)
-  with open(fileTest) as f:
-    S_test = pickle.load(f)
-  logging.log(logging.INFO+5,'data read')
-  return S_train,S_test
+
+def read_data(eventClass, neighborhood='rook', dataset='1MONTH', waves=['0171'], balanceOption='None'):
+    logging.log(logging.INFO + 5, 'reading data')
+    file_train = "data/" + "_".join(
+        [eventClass, neighborhood, dataset, "-".join(waves), 'balance=' + balanceOption]) + ".train"
+    file_test = "data/" + "_".join(
+        [eventClass, neighborhood, dataset, "-".join(waves), 'balance=' + balanceOption]) + ".test"
+    with open(file_train) as f:
+        s_train = cPickle.load(f)
+    with open(file_test) as f:
+        s_test = cPickle.load(f)
+    logging.log(logging.INFO + 5, 'data read')
+    return s_train, s_test
 

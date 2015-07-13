@@ -120,10 +120,10 @@ def event_image_matches(dataset='1MONTH', waves=None):
     return headers, pairs_we_want
 
 
-def image_event_matches(eventTypes=['FL', 'FI', 'AR', 'CH', 'SS', 'SG'], dataset='1MONTH', waves=[]):
+def image_event_matches(event_types=('FL', 'FI', 'AR', 'CH', 'SS', 'SG'), dataset='1MONTH', waves=None):
     headers, pairs_we_want = event_image_matches(dataset=dataset, waves=waves)
     print 'calculating image-event matches'
-    pairs_we_want = [pair for pair in pairs_we_want if parseEventData.parseEventType(pair[0], headers) in eventTypes]
+    pairs_we_want = [pair for pair in pairs_we_want if parseEventData.parseEventType(pair[0], headers) in event_types]
     reverse_matches = dict()
     for pair in pairs_we_want:
         for filename in pair[1:]:

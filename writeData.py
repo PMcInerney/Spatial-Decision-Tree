@@ -240,31 +240,32 @@ def write_experiment_data(circle_mask, event_class, neighborhood, dataset, waves
             fullIAdj[pix['id']] = il
         # end for pix loop
         random.shuffle(all_pixels)  # I think this is an artifact of when we were dividing train and test sets randomly?
-        train_Pixels = [x for x in all_pixels if x['id'][1] >= 32]  # train on the top half of every image
+        # TODO: figure out if I can remove above line
+        train_pixels = [x for x in all_pixels if x['id'][1] >= 32]  # train on the top half of every image
         test_pixels = [x for x in all_pixels if x['id'][1] < 32]  # test on the bottom half of every image
 
-        A = set(x['id'] for x in train_Pixels)
+        A = set(x['id'] for x in train_pixels)
         B = set(x['id'] for x in test_pixels)
-        trainHAdj = dict()
-        trainIAdj = dict()
-        testHAdj = dict()
-        testIAdj = dict()
+        train_adj_h = dict()
+        train_adj_i = dict()
+        test_adj_h = dict()
+        test_adj_i = dict()
         for key in fullHAdj:  # both adjacency mats have the same keys
             HNlist = fullHAdj[key]
             INlist = fullIAdj[key]
             if key in A:
                 newHNlist = [x for x in HNlist if x['id'] in A]
                 newINlist = [x for x in INlist if x['id'] in A]
-                trainHAdj[key] = newHNlist
-                trainIAdj[key] = newINlist
+                train_adj_h[key] = newHNlist
+                train_adj_i[key] = newINlist
             else:
                 newHNlist = [x for x in HNlist if x['id'] in B]
                 newINlist = [x for x in INlist if x['id'] in B]
-                testHAdj[key] = newHNlist
-                testIAdj[key] = newINlist
+                test_adj_h[key] = newHNlist
+                test_adj_i[key] = newINlist
 
-        s_train = train_Pixels, trainHAdj, trainIAdj
-        s_test = test_pixels, testHAdj, testIAdj
+        s_train = train_pixels, train_adj_h, train_adj_i
+        s_test = test_pixels, test_adj_h, test_adj_i
         with open(output_file_train, 'wb') as f:
             pickle.dump(s_train, f)
         with open(output_file_test, 'wb') as f:
@@ -279,4 +280,4 @@ circleMask = gridCells(
     circleMask([H, W], [H / 2, W / 2], radius))  # this mask is for eliminating the edges of the sun from our filter
 for derp in ['Mirror']:
     write_data(circleMask,
-               balance_option=derp)  # don't have to worry about accidently reusing data, as this is a function call
+               balance_option=derp)  # don't have to worry about accidentally reusing data, as this is a function call

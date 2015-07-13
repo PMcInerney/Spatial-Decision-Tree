@@ -1,7 +1,7 @@
 from __future__ import division
 import SDT
 import cProfile
-from readData import readData
+from readData import read_data
 import experimentBuilder as EX
 import NeighborGraph
 import itertools
@@ -20,19 +20,19 @@ def stuff():
     S = Tree.size()
     print 'size:', S
     print 'balance:', Tree.balance()
-    print 'splits:', Tree.totalSplitsEvaluated()
-    TBSR = Tree.totalBestSplitRuntime()
+    print 'splits:', Tree.total_splits_evaluated()
+    TBSR = Tree.total_best_split_runtime()
     print 'total time:', TBSR
     print 'avg time:', TBSR/((S-1)/2)
     print
 
 def stuff2():
   print 'looking at the value distributions of the different parameters'
-  S_train,S_test = readData('AR',neighborhood='rook',dataset='1DAY',waves=['0094'],balanceOption = 'Mirror')
+  S_train,S_test = read_data('AR',neighborhood='rook',dataset='1DAY',waves=['0094'],balanceOption = 'Mirror')
   G = NeighborGraph.NeighborGraph(S_train)
 
   for p in G.F: # for each parameter
-    l = [pix[p] for pix in G.pixels] # grab the pixels
+    l = [pix[p] for pix in G.cells] # grab the pixels
     print p
     print 'Max:',max(l)
     print 'Min:',min(l)

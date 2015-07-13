@@ -2,7 +2,7 @@ from __future__ import division
 from multiprocessing import Pool
 import SDT
 import cProfile
-from readData import readData
+from readData import read_data
 import itertools
 import os.path
 import signal
@@ -66,13 +66,14 @@ def testing():
 
     splitRes = 50
     # splitRes specifies how many splits are considered among each parameter at each tree node these
-    # splits are selected uniformly according to value distribution (e.g. with 100 splits you get 0th percentile value, 1st percentile value, 2nd percentile value, etc.)
+    # splits are selected uniformly according to value distribution (e.g. with 100 splits you get 0th percentile value, 
+    # 1st percentile value, 2nd percentile value, etc.)
     # a very high value (e.g. 10,000,000) will cause the training to evaluate every potential split.
     # once every potential split is being evaluated, increasing splitRes won't affect the result or runtime of the algorithm.
 
 
-    experimentData = [x for x in itertools.product(events, neighborhoods, datasets, waves, balances)]
-    experimentDataAndC_0Vals = [x for x in itertools.product(experimentData, c_0vals)]
+    experiment_data = [x for x in itertools.product(events, neighborhoods, datasets, waves, balances)]
+    experiment_data_and_c0_vals = [x for x in itertools.product(experiment_data, c_0vals)]
 
     trainingParamSets = [x for x in itertools.product(alphas, thetas)]
     #  trainingParamSets.append(((0.0,0.0),1.1))# add baseline experiment
@@ -83,11 +84,29 @@ def testing():
     # end parameter setup
     # -----------------------
 
-    for experiment, cv in experimentDataAndC_0Vals:
-        S_train, S_test = readData(*experiment)
+    for experiment, cv in experiment_data_and_c0_vals:
+        S_train, S_test = read_data(*experiment)
         cells = S_train[0]
         cells2 = S_test[0]
         c_0 = max(len(cells) // cv, 1)
+
+
+
+    # if not os.path.exists(treefile) or treefile == 'temp.tree':
+    #     g = NeighborGraph(s_train)
+    #     tree = sdt_train(g, alpha, c_0, split_res, neighbor_functions)
+    #     with open(treefile, 'w') as f:
+    #         tree.save(f)
+    # else:
+    #     print 'tree exists'
+    #     tree = TreeNode('dummy')
+    #     with open(treefile) as f:
+    #         tree.load(f)
+
+
+
+
+
 
         e, n, d, w, b = experiment
         fileBase = "results/" + "_".join([str(e), str(n), str(d), "-".join(w), 'c_0=' + str(c_0), 'balance=' + str(b)])
@@ -131,7 +150,7 @@ def parallelized_component(run):
     signal.signal(signal.SIGALRM, handler)
     signal.alarm(timeout)  # timeout value of zero disables alarm
     try:
-        TP, FP, TN, FN = SDT.sdt_learn(S_train, S_test, alpha, c_0, theta, splitRes, treefile, NeighborFunctions)
+        TP, FP, TN, FN = SDT.sdt_learn(S_train, S_test, alpha, c_0, theta, splitRes, NeighborFunctions)
         didTimeout = False
     except MyTimeoutException:
         didTimeout = True
